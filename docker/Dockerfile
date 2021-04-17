@@ -32,7 +32,6 @@ RUN groupadd -o -g $GID deepin && \
     useradd -d "/home/deepin" -m -o -u $UID -g deepin -G audio,video deepin
 
 ADD entrypoint.sh /
-ADD qq.sh /usr/local/bin/
-ADD wechat.sh /usr/local/bin/
+ADD utils/* /usr/local/bin/
 
 ENTRYPOINT ["/entrypoint.sh"]
