@@ -56,13 +56,15 @@ deepin.net.cnki.cajviewer
 ## 查询软件包列表
 
 ```
-docker exec  -t deepin sh -c "apt update && apt search  'Deepin Wine'"
+docker exec -t deepin sh -c "apt update && apt search  'Deepin Wine'"
 ```
 
 # 启动
 
 ```
+# docker exec -d deepin tim.sh
 docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-TIM/run.sh
+# docker exec -d deepin wechat.sh
 docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-WeChat/run.sh
 ```
 
@@ -91,6 +93,8 @@ docker container stop deepin
 docker container start deepin
 #删除容器（出现问题时可以删除重建）
 docker container rm deepin -f
+#查看日志
+docker logs -f deepin
 ```
 
 # 感谢

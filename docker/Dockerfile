@@ -8,8 +8,9 @@ RUN echo 'deb http://packages.deepin.com/deepin stable main non-free contrib' > 
     locale-gen && \
     echo -e 'LANG="zh_CN.UTF-8"\nLANGUAGE="zh_CN:zh"\n' > /etc/default/locale && \
     source /etc/default/locale && \
-    apt-get install -y --no-install-recommends fonts-wqy-microhei deepin-wine deepin-wine32 deepin-wine32-preloader deepin-wine-helper deepin-wine-uninstaller dbus-x11&& \
-    apt-get install -y --no-install-recommends procps deepin.com.wechat deepin.com.qq.office&& \
+    apt-get install -y --no-install-recommends fonts-wqy-microhei deepin-wine deepin-wine32 deepin-wine32-preloader deepin-wine-helper deepin-wine-uninstaller dbus-x11
+
+RUN apt-get install -y --no-install-recommends procps deepin.com.wechat deepin.com.qq.office&& \
     apt-get -y autoremove --purge && apt-get autoclean -y && apt-get clean -y && \
     find /var/lib/apt/lists -type f -delete && \
     find /var/cache -type f -delete && \
