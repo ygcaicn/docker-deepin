@@ -12,13 +12,7 @@ su deepin <<EOF
     mkdir -p ~/.deepinwine
 EOF
 
-apt-get update
-apt-get upgrade
-apt-get -y autoremove --purge && apt-get autoclean -y && apt-get clean -y && \
-find /var/lib/apt/lists -type f -delete && \
-find /var/cache -type f -delete && \
-find /var/log -type f -delete && \
-find /usr/share/doc -type f -delete && \
-find /usr/share/man -type f -delete
-
-sleep infinity
+# top
+# ping -i 10 127.0.0.1
+# sleep infinity
+ping -i 30 bing.com -D

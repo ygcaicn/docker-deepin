@@ -1,7 +1,43 @@
-# 创建容器
+
+# 上手
 
 ```
-sudo xhost +
+> sudo xhost +
+>bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
+
+
+> docker-deepin help
+
+Usage: docker-deepin COMMAND
+Commands:
+
+--init|init
+      Init a new container.
+--install|install app
+      Install app to container and create Desktop file.
+--run|run app
+--remove|remove app
+      Remove app(Desktop file).
+--cleanup|cleanup
+      Stop and remove current container.
+--shell|shell|bash
+      Enter current container shell.
+--logs|logs
+      Fetch the logs of a container
+
+app list: 
+      deepin.com.thunderspeed|deepin.com.taobao.wangwang|deepin.com.taobao.aliclient.qianniu|deepin.com.qq.rtx2015|deepin.com.qq.office|deepin.com.qq.im.light|deepin.com.qq.im|deepin.com.qq.b.eim|deepin.com.qq.b.crm|deepin.com.gtja.fuyi|deepin.com.foxmail|deepin.com.cmbchina|deepin.com.baidu.pan|deepin.com.aaa-logo|deepin.com.95579.cjsc|deepin.cn.com.winrar|deepin.cn.360.yasuo|deepin.com.wechat|deepin.com.weixin.work|deepin.net.263.em|deepin.org.7-zip|deepin.org.foobar2000|deepin.net.cnki.cajviewer
+
+
+```
+
+
+# 进阶
+
+## 创建容器
+
+```
+
 docker run -d --name deepin \
     --device /dev/snd --ipc="host"\
     -v $HOME/deepin:/home/deepin \
@@ -17,7 +53,7 @@ docker run -d --name deepin \
     jachin007/deepin
 ```
 
-# 安装软件
+## 安装软件
 
 容器中自带了WeChat和TIM。
 
@@ -25,7 +61,7 @@ docker run -d --name deepin \
 docker exec -t deepin sh -c "apt update && apt install -y  deepin.com.thunderspeed"
 ```
 
-## 软件包列表
+### 软件包列表
 
 ```
 deepin.com.thunderspeed
@@ -53,13 +89,13 @@ deepin.org.foobar2000
 deepin.net.cnki.cajviewer
 ```
 
-## 查询软件包列表
+### 查询软件包列表
 
 ```
 docker exec -t deepin sh -c "apt update && apt search  'Deepin Wine'"
 ```
 
-# 启动
+## 启动
 
 ```
 # docker exec -d deepin tim.sh
@@ -68,7 +104,7 @@ docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-TIM/run.sh
 docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-WeChat/run.sh
 ```
 
-## hidpi
+### hidpi
 
 ```
 f=$(mktemp).reg
@@ -83,7 +119,7 @@ docker cp $f deepin:$f
 docker exec -it deepin  su deepin -c "WINEPREFIX=/home/deepin/.deepinwine/Deepin-WeChat deepin-wine regedit $f"
 ```
 
-# 其它指令
+## 其它指令
 
 ```
 #进入容器
