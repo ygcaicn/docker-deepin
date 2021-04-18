@@ -29,7 +29,7 @@ _install_in_container(){
     if [[ $? -ne 0 ]]; then
         #install
         echo "Install to container..."
-        docker exec -t deepin sh -c "apt install ${app}"
+        docker exec -t deepin sh -c "apt install -y ${app}"
         return $?
     fi
     return 0
