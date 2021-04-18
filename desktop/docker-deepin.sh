@@ -49,7 +49,7 @@ _install_desktop(){
         to=${from/\/usr/$D}
         echo "deepin:$from -> $to"
         docker cp "deepin:$from" "$to"
-        # convert svg
+        # convert svg to png
         [[ "${to##*.}" == "svg" ]] && {
             echo "convert to:"
             echo "${to%.*}.png"
@@ -82,8 +82,8 @@ install(){
             _install_in_container $app
             if [[ $? -ne 0 ]]; then
                 echo "Install error, please try:"
-                echo "docker container stop deepin" 
-                echo "docker container rm deepin -f"
+                echo "docker-deepin cleanup" 
+                echo "docker-deepin init"
                 exit 1
             else
                 echo "Install OK!"
@@ -117,10 +117,9 @@ run(){
             app=$key
             cmd=`cat ~/.local/share/applications/$app.desktop  | sed -n -r -e 's/^#Exec\=(".+").*/\1/p'`
 
-
             echo "exec command:"
-            echo "docker exec -d deepin runuser -u deepin   "$cmd""
-            docker exec -ti deepin runuser -u deepin  "$cmd"
+            echo "$SHELL -c \"docker exec -u deepin -d deepin $cmd\""
+            $SHELL -c "docker exec -u deepin -d deepin $cmd"
             # docker exec -d deepin /home/deepin/wrap.sh $cmd
         ;;
         *)

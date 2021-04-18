@@ -3,7 +3,7 @@
 
 ```
 > sudo xhost +
->bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
+> bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
 
 
 > docker-deepin help

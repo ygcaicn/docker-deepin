@@ -7,7 +7,6 @@ REPO="https://raw.githubusercontent.com/ygcaicn/docker-deepin/main"
 
 #bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
 
-
 install(){
     key="$1"
     case $key in
@@ -21,8 +20,6 @@ install(){
         ;;
     esac
 }
-
-
 
 key="$1"
 case $key in
