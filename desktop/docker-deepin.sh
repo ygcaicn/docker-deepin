@@ -9,6 +9,7 @@ init(){
         --device /dev/snd --ipc="host"\
         -v $HOME/deepin:/home/deepin \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -v $HOME:$HOME\
         -e XMODIFIERS=@im=fcitx \
         -e QT_IM_MODULE=fcitx \
         -e GTK_IM_MODULE=fcitx \
@@ -115,11 +116,11 @@ run(){
     case $key in
         deepin.com.thunderspeed|deepin.com.taobao.wangwang|deepin.com.taobao.aliclient.qianniu|deepin.com.qq.rtx2015|deepin.com.qq.office|deepin.com.qq.im.light|deepin.com.qq.im|deepin.com.qq.b.eim|deepin.com.qq.b.crm|deepin.com.gtja.fuyi|deepin.com.foxmail|deepin.com.cmbchina|deepin.com.baidu.pan|deepin.com.aaa-logo|deepin.com.95579.cjsc|deepin.cn.com.winrar|deepin.cn.360.yasuo|deepin.com.wechat|deepin.com.weixin.work|deepin.net.263.em|deepin.org.7-zip|deepin.org.foobar2000|deepin.net.cnki.cajviewer)
             app=$key
-            cmd=`cat $HOME/.local/share/applications/$app.desktop  | sed -n -r -e 's/^#Exec\=(".+").*/\1/p'`
+            cmd=`cat $HOME/.local/share/applications/$app.desktop  | sed -n -r -e 's/^#Exec\="(.+)".*/\1/p'`
 
             echo "exec command:"
-            echo "$SHELL -c \"docker exec -u deepin -d deepin $cmd\""
-            $SHELL -c "docker exec -u deepin -d deepin $cmd"
+            echo "docker exec -u deepin -d deepin $cmd"
+            docker exec -u deepin -d deepin "$cmd"
         ;;
         *)
             echo "Unknown opt."
