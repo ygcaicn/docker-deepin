@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+xhost +
+
 init(){
     $(docker container start deepin > /dev/null 2>&1)
     if [[ $? -ne 0 ]]; then
