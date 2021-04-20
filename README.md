@@ -1,5 +1,15 @@
 # 上手🎉️
 
+本脚本依赖Docker，需要提前安装好Docker环境，如果以安装请忽略。
+
+Debian/Ubuntu安装方法：
+
+```bash
+sudo apt update
+sudo apt install docker.io -y
+sudo usermod -aG docker $USER
+```
+
 超级简单的安装使用方法：
 
 ```bash
