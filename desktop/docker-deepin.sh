@@ -201,6 +201,9 @@ case $cmd in
     --init|init)
         init
     ;;
+    _install_desktop)
+        _install_desktop $2
+    ;;
     --help|help|*)
         echo "Unknown opt."
         help

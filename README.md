@@ -9,6 +9,7 @@
 > docker-deepin help
 
 Usage: docker-deepin COMMAND
+
 Commands:
 
 --init|init
@@ -32,25 +33,20 @@ app list:
       deepin.com.cmbchina deepin.com.baidu.pan deepin.com.aaa-logo deepin.com.95579.cjsc
       deepin.cn.com.winrar deepin.cn.360.yasuo deepin.com.wechat deepin.com.weixin.work
       deepin.net.263.em deepin.org.7-zip deepin.org.foobar2000 deepin.net.cnki.cajviewer
-  
 
 ```
 
-容器内已经内置deepin.com.qq.office和deepin.com.wechat，按照如下步骤直接运行（init只需运行一次）
+基本使用方法: 
 
-docker-deepin init -> docker-deepin run deepin.com.qq.office
+1. `docker-deepin init`
+2. `docker-deepin install deepin.com.wechat`
+3. `docker-deepin run deepin.com.wechat` 或者 点击图标运行（install完已经生成图标了）
 
-docker-deepin init -> docker-deepin run deepin.com.wechat
-
-其它软件包：
-
-docker-deepin init -> docker-deepin install deepin.com.thunderspeed -> docker-deepin run deepin.com.thunderspeed
+**遇到问题首先尝试：`docker-deepin cleanup`然后重新`docker-deepin init`。**
 
 ---
 
-
-
-# 进阶🚀️ 
+# 进阶🚀️
 
 ## 创建容器
 
@@ -78,24 +74,12 @@ docker run -d --name deepin \
 
 ```bash
 docker exec -t deepin sh -c "apt update && apt install -y  deepin.com.thunderspeed"
-# 创建Desktop文件
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 
 ### 软件包列表
 
-```
+```bash
 deepin.com.thunderspeed
 deepin.com.taobao.wangwang
 deepin.com.taobao.aliclient.qianniu
@@ -123,13 +107,13 @@ deepin.net.cnki.cajviewer
 
 ### 查询软件包列表
 
-```
+```bash
 docker exec -t deepin sh -c "apt update && apt search  'Deepin Wine'"
 ```
 
 ## 启动
 
-```
+```bash
 # docker exec -d deepin tim.sh
 docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-TIM/run.sh
 # docker exec -d deepin wechat.sh
@@ -138,14 +122,16 @@ docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-WeChat/run.
 
 ## 其它指令
 
-```
+```bash
 #进入容器
 docker exec -it deepin bash
+#deepin身份进入
+docker exec -it -u deepin deepin bash
 #停止/启动容器
-docker container stop deepin
-docker container start deepin
+docker stop deepin
+docker start deepin
 #删除容器（出现问题时可以删除重建）
-docker container rm deepin -f
+docker rm deepin -f
 #查看日志
 docker logs -f deepin
 ```

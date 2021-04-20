@@ -36,3 +36,4 @@ ADD entrypoint.sh /
 ADD utils/* /usr/local/bin/
 
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["sleep","infinity"]
