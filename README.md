@@ -3,7 +3,6 @@
 超级简单的安装使用方法：
 
 ```bash
-> sudo xhost +
 > bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
 
 > docker-deepin help
@@ -43,6 +42,9 @@ app list:
 3. `docker-deepin run deepin.com.wechat` 或者 点击图标运行（install完已经生成图标了）
 
 **遇到问题首先尝试：`docker-deepin cleanup`然后重新`docker-deepin init`。**
+
+
+![](show.png)
 
 ---
 
