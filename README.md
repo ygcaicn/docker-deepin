@@ -44,7 +44,7 @@ app list:
 **遇到问题首先尝试：`docker-deepin cleanup`然后重新`docker-deepin init`。**
 
 
-![](show.png)
+![show](show.png)
 
 ---
 
