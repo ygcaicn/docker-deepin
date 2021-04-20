@@ -1,7 +1,9 @@
 FROM bestwu/deepin:stable-i386
 LABEL maintainer='Jachin <ygcaicn@gmail.com>'
 
-RUN echo 'deb http://packages.deepin.com/deepin stable main non-free contrib' > /etc/apt/sources.list && \
+RUN echo "nameserver 114.114.114.114" > /etc/resolv.conf && \ 
+    echo "search companydomain" >> /etc/resolv.conf && \ 
+    echo 'deb http://packages.deepin.com/deepin stable main non-free contrib' > /etc/apt/sources.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends locales && \
     echo 'zh_CN.UTF-8 UTF-8' > /etc/locale.gen && \
@@ -10,7 +12,9 @@ RUN echo 'deb http://packages.deepin.com/deepin stable main non-free contrib' > 
     source /etc/default/locale && \
     apt-get install -y --no-install-recommends fonts-wqy-microhei deepin-wine deepin-wine32 deepin-wine32-preloader deepin-wine-helper deepin-wine-uninstaller dbus-x11
 
-RUN apt-get install -y --no-install-recommends iputils-ping procps deepin.com.wechat deepin.com.qq.office&& \
+RUN echo "nameserver 114.114.114.114" > /etc/resolv.conf && \ 
+    echo "search companydomain" >> /etc/resolv.conf && \ 
+    apt-get install -y --no-install-recommends iputils-ping procps deepin.com.wechat deepin.com.qq.office&& \
     apt-get -y autoremove --purge && apt-get autoclean -y && apt-get clean -y && \
     find /var/lib/apt/lists -type f -delete && \
     find /var/cache -type f -delete && \
