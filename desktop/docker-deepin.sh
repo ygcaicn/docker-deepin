@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-xhost +
+xhost + > /dev/null 2>&1
 
 init(){
     $(docker container start deepin > /dev/null 2>&1)
