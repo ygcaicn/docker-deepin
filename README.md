@@ -1,10 +1,10 @@
+# 上手🎉️
 
-# 上手
+超级简单的安装使用方法：
 
-```
+```bash
 > sudo xhost +
 > bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
-
 
 > docker-deepin help
 
@@ -26,7 +26,13 @@ Commands:
       Fetch the logs of a container
 
 app list: 
-      deepin.com.thunderspeed deepin.com.taobao.wangwang deepin.com.taobao.aliclient.qianniu deepin.com.qq.rtx2015 deepin.com.qq.office deepin.com.qq.im.light deepin.com.qq.im deepin.com.qq.b.eim deepin.com.qq.b.crm deepin.com.gtja.fuyi deepin.com.foxmail deepin.com.cmbchina deepin.com.baidu.pan deepin.com.aaa-logo deepin.com.95579.cjsc deepin.cn.com.winrar deepin.cn.360.yasuo deepin.com.wechat deepin.com.weixin.work deepin.net.263.em deepin.org.7-zip deepin.org.foobar2000 deepin.net.cnki.cajviewer
+      deepin.com.thunderspeed deepin.com.taobao.wangwang deepin.com.taobao.aliclient.qianniu
+      deepin.com.qq.rtx2015 deepin.com.qq.office deepin.com.qq.im.light deepin.com.qq.im
+      deepin.com.qq.b.eim deepin.com.qq.b.crm deepin.com.gtja.fuyi deepin.com.foxmail
+      deepin.com.cmbchina deepin.com.baidu.pan deepin.com.aaa-logo deepin.com.95579.cjsc
+      deepin.cn.com.winrar deepin.cn.360.yasuo deepin.com.wechat deepin.com.weixin.work
+      deepin.net.263.em deepin.org.7-zip deepin.org.foobar2000 deepin.net.cnki.cajviewer
+  
 
 ```
 
@@ -38,16 +44,17 @@ docker-deepin init -> docker-deepin run deepin.com.wechat
 
 其它软件包：
 
-docker-deepin init -> docker-deepin install deepin.com.thunderspeed -> docker-deepin run deepin.com.thunderspeed 
+docker-deepin init -> docker-deepin install deepin.com.thunderspeed -> docker-deepin run deepin.com.thunderspeed
+
+---
 
 
 
-
-# 进阶
+# 进阶🚀️ 
 
 ## 创建容器
 
-```
+```bash
 
 docker run -d --name deepin \
     --device /dev/snd --ipc="host"\
@@ -69,8 +76,21 @@ docker run -d --name deepin \
 
 容器中自带了WeChat和TIM。
 
-```
+```bash
 docker exec -t deepin sh -c "apt update && apt install -y  deepin.com.thunderspeed"
+# 创建Desktop文件
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 ### 软件包列表
@@ -116,21 +136,6 @@ docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-TIM/run.sh
 docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-WeChat/run.sh
 ```
 
-### hidpi
-
-```
-f=$(mktemp).reg
-cat <<-EOF > $f
-REGEDIT4
-
-[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Hardware Profiles\Current\Software\Fonts]
-"LogPixels"=dword:00000060
-EOF
-
-docker cp $f deepin:$f
-docker exec -it deepin  su deepin -c "WINEPREFIX=/home/deepin/.deepinwine/Deepin-WeChat deepin-wine regedit $f"
-```
-
 ## 其它指令
 
 ```
@@ -147,6 +152,4 @@ docker logs -f deepin
 
 # 感谢
 
-<https://github.com/bestwu>
-
-
+[https://github.com/bestwu](https://github.com/bestwu)

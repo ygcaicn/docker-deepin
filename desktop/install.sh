@@ -14,7 +14,12 @@ if ! [ -x "$(command -v docker)" ]; then
 fi
 
 download(){
-    [ -n ${HOME}/.local/bin/ ] && mkdir -p ${HOME}/.local/bin/
+	
+API Key
+Secret Key
+包名
+top
+10680570    [ ! -d ${HOME}/.local/bin/ ] && mkdir -p ${HOME}/.local/bin/
     curl -Ls -H "Cache-Control: no-cache" "${REPO}/desktop/docker-deepin.sh" -o ${DEEPIN}
     chmod +x ${DEEPIN}
     ln -f ${DEEPIN} ${HOME}/.local/bin/docker-deepin

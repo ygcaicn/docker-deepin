@@ -12,7 +12,11 @@ su deepin <<EOF
     mkdir -p ~/.deepinwine
 EOF
 
+echo "entrypoint"
+
+exec $*
+
 # top
 # ping -i 10 127.0.0.1
 # sleep infinity
-ping -i 30 bing.com -D
+# ping -i 30 bing.com -D

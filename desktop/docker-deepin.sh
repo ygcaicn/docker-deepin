@@ -18,7 +18,8 @@ init(){
         -e VIDEO_GID=`getent group video | cut -d: -f3` \
         -e GID=`id -g` \
         -e UID=`id -u` \
-        jachin007/deepin
+        jachin007/deepin \
+        ping -i 30 bing.com -D
     fi
 }
 
@@ -29,7 +30,7 @@ _install_in_container(){
     if [[ $? -ne 0 ]]; then
         #install
         echo "Install to container..."
-        docker exec -t deepin sh -c "apt install -y ${app}"
+        docker exec -t deepin apt install -y ${app}
         return $?
     fi
     return 0
@@ -43,9 +44,7 @@ _install_desktop(){
     for i in $icons; do
         # id=`docker inspect -f   '{{.Id}}' deepin`
         from=$i
-        [ -d $i ] && {
-            continue
-        }
+        [ -d $i ] && continue
         D="${HOME}/.local"
         to=${from/\/usr/$D}
         echo "deepin:$from -> $to"
@@ -56,7 +55,6 @@ _install_desktop(){
             echo "${to%.*}.png"
             convert -density 1200 -background none -resize 512x512 "$to" "${to%.*}.png"
         }
-
     done
 
     # install desktop file
@@ -68,6 +66,19 @@ _install_desktop(){
     echo "Exec=\"$0\" run $app" >> ${to}
     chmod 755 ${to}
     echo "install desktop: ${to}"
+
+    # copy run.sh to /home/deepin/run/${app}.sh
+    cmd=`cat $to  | sed -n -r -e 's/^#Exec\="(.+)".*/\1/p'`
+
+    sc=$(cat << EOF
+set -e
+[ ! -d /home/deepin/run ] && mkdir -p /home/deepin/run
+cp $cmd /home/deepin/run/${app}.sh
+
+EOF
+)
+    docker exec -u deepin -t deepin sh -c "$sc"
+
     return 0
 }
 
@@ -87,7 +98,6 @@ install(){
                 echo "docker-deepin init"
                 exit 1
             else
-                echo "Install OK!"
                 _install_desktop $app
             fi
         ;;
@@ -106,10 +116,9 @@ remove(){
 # Stop and rm container
 cleanup(){
     echo "clean up: stop&rm container"
-    docker container stop deepin
-    docker container rm deepin -f
+    # docker stop deepin
+    docker rm deepin -f
 }
-
 
 run(){
     key="$1"
@@ -117,6 +126,11 @@ run(){
         deepin.com.thunderspeed|deepin.com.taobao.wangwang|deepin.com.taobao.aliclient.qianniu|deepin.com.qq.rtx2015|deepin.com.qq.office|deepin.com.qq.im.light|deepin.com.qq.im|deepin.com.qq.b.eim|deepin.com.qq.b.crm|deepin.com.gtja.fuyi|deepin.com.foxmail|deepin.com.cmbchina|deepin.com.baidu.pan|deepin.com.aaa-logo|deepin.com.95579.cjsc|deepin.cn.com.winrar|deepin.cn.360.yasuo|deepin.com.wechat|deepin.com.weixin.work|deepin.net.263.em|deepin.org.7-zip|deepin.org.foobar2000|deepin.net.cnki.cajviewer)
             app=$key
             cmd=`cat $HOME/.local/share/applications/$app.desktop  | sed -n -r -e 's/^#Exec\="(.+)".*/\1/p'`
+            # cmd like: /opt/deepinwine/apps/Deepin-WeChat/run.sh
+            # TODO: try run from if exists /home/deepin/run/${app}.sh
+            if [ -x "$HOME/deepin/run/${app}.sh" ] ; then
+                cmd="/home/deepin/run/${app}.sh"
+            fi
 
             echo "exec command:"
             echo "docker exec -u deepin -d deepin $cmd"
@@ -131,6 +145,7 @@ run(){
 
 help(){
     echo "Usage: docker-deepin COMMAND"
+    echo ""
     echo "Commands:"
     echo ""
     echo "--init|init"
@@ -149,7 +164,12 @@ help(){
     echo ""
 
     echo "app list: "
-    echo "      deepin.com.thunderspeed|deepin.com.taobao.wangwang|deepin.com.taobao.aliclient.qianniu|deepin.com.qq.rtx2015|deepin.com.qq.office|deepin.com.qq.im.light|deepin.com.qq.im|deepin.com.qq.b.eim|deepin.com.qq.b.crm|deepin.com.gtja.fuyi|deepin.com.foxmail|deepin.com.cmbchina|deepin.com.baidu.pan|deepin.com.aaa-logo|deepin.com.95579.cjsc|deepin.cn.com.winrar|deepin.cn.360.yasuo|deepin.com.wechat|deepin.com.weixin.work|deepin.net.263.em|deepin.org.7-zip|deepin.org.foobar2000|deepin.net.cnki.cajviewer"
+    echo "      deepin.com.thunderspeed deepin.com.taobao.wangwang deepin.com.taobao.aliclient.qianniu"
+    echo "      deepin.com.qq.rtx2015 deepin.com.qq.office deepin.com.qq.im.light deepin.com.qq.im"
+    echo "      deepin.com.qq.b.eim deepin.com.qq.b.crm deepin.com.gtja.fuyi deepin.com.foxmail"
+    echo "      deepin.com.cmbchina deepin.com.baidu.pan deepin.com.aaa-logo deepin.com.95579.cjsc"
+    echo "      deepin.cn.com.winrar deepin.cn.360.yasuo deepin.com.wechat deepin.com.weixin.work"
+    echo "      deepin.net.263.em deepin.org.7-zip deepin.org.foobar2000 deepin.net.cnki.cajviewer"
 }
 
 cmd="$1"
