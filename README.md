@@ -138,4 +138,4 @@ docker logs -f deepin
 
 # 感谢
 
-[https://github.com/bestwu](https://github.com/bestwu)
+[https://github.com/bestwu](https://github.com/bestwu/docker-deepin)
