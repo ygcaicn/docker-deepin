@@ -107,6 +107,7 @@ EOF
 }
 
 install(){
+    check_container
     key="$1"
     case $key in
         deepin.com.qq.office|deepin.com.wechat)
@@ -134,7 +135,6 @@ install(){
 
 remove(){
     echo "remove"
-
 }
 
 # Stop and rm container
