@@ -119,8 +119,7 @@ install(){
             _install_in_container $app
             if [[ $? -ne 0 ]]; then
                 echo "Install error, please try:"
-                echo "docker-deepin cleanup" 
-                echo "docker-deepin init"
+                echo "docker-deepin reinit" 
                 exit 1
             else
                 _install_desktop $app
@@ -189,8 +188,9 @@ help(){
     echo "      Enter current container shell."
     echo "--logs|logs"
     echo "      Fetch the logs of a container"
+    echo "--reinit|reinit"
+    echo "      rebuild container by force."
     echo ""
-
     echo "app list: "
     echo "      deepin.com.thunderspeed deepin.com.taobao.wangwang deepin.com.taobao.aliclient.qianniu"
     echo "      deepin.com.qq.rtx2015 deepin.com.qq.office deepin.com.qq.im.light deepin.com.qq.im"

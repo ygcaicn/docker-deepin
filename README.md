@@ -34,6 +34,8 @@ Commands:
       Enter current container shell.
 --logs|logs
       Fetch the logs of a container
+--reinit|reinit
+      rebuild container by force.
 
 app list: 
       deepin.com.thunderspeed deepin.com.taobao.wangwang deepin.com.taobao.aliclient.qianniu
@@ -42,6 +44,7 @@ app list:
       deepin.com.cmbchina deepin.com.baidu.pan deepin.com.aaa-logo deepin.com.95579.cjsc
       deepin.cn.com.winrar deepin.cn.360.yasuo deepin.com.wechat deepin.com.weixin.work
       deepin.net.263.em deepin.org.7-zip deepin.org.foobar2000 deepin.net.cnki.cajviewer
+
 
 ```
 
