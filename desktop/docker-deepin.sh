@@ -2,12 +2,8 @@
 
 xhost + > /dev/null 2>&1
 
-init(){
-    $(docker container start deepin > /dev/null 2>&1)
-    if [[ $? -ne 0 ]]; then
-        docker container stop deepin > /dev/null 2>&1
-        docker container rm deepin -f > /dev/null 2>&1
-        docker run -d --name deepin \
+_init(){
+    docker run -d --name deepin \
         --device /dev/snd --ipc="host"\
         -v $HOME/deepin:/home/deepin \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -22,9 +18,36 @@ init(){
         -e UID=`id -u` \
         jachin007/deepin \
         ping -i 30 bing.com -D
-    fi
 }
 
+check_container(){
+    while [[ "$(docker inspect -f '{{.State.Running}}' deepin 2> /dev/null)" != "true"  ]] ;do 
+        $(docker inspect deepin > /dev/null 2>&1)
+        if [[ $? -ne 0 ]]; then
+            # no container
+            _init
+            sleep 2
+        else 
+            if [[ "$(docker inspect -f '{{.State.Running}}' deepin 2> /dev/null)" != "true" ]]; then
+                # not running
+                $(docker container start deepin > /dev/null 2>&1)
+                if [[ $? -ne 0 ]]; then
+                    cleanup
+                fi
+            fi
+        fi
+    done
+    docker inspect -f '{{.Id}}' deepin
+}
+
+init(){
+    check_container
+}
+
+reinit(){
+    cleanup
+    init
+}
 
 _install_in_container(){
     app=$1
@@ -40,15 +63,14 @@ _install_in_container(){
 
 _install_desktop(){
     app=$1
-    icons=$(docker exec -t deepin sh -c "IFS=$'\r\n' dpkg -L ${app} | grep -E /usr/share/icons/.+")
+    icons=$(docker exec -t deepin sh -c "IFS=$'\r\n' dpkg -L ${app} | grep -E /icons/.+")
     IFS=$'\r\n'
     # install icons
     for i in $icons; do
         # id=`docker inspect -f   '{{.Id}}' deepin`
         from=$i
         [ -d $i ] && continue
-        D="${HOME}/.local"
-        to=${from/\/usr/$D}
+        to=$HOME/.local/share/icons/$(echo $from | sed -n -r -e 's/^.+icons\/(.+)$/\1/p')
         echo "deepin:$from -> $to"
         docker cp "deepin:$from" "$to"
         # convert svg to png
@@ -62,7 +84,7 @@ _install_desktop(){
     # install desktop file
     IFS=$'\n'
     to=${HOME}/.local/share/applications/$app.desktop
-    from=$(docker exec -t deepin sh -c "IFS=$'\n' dpkg -L ${app}" | sed -r -e 's/\r//g' | grep -E '\/usr\/share.+desktop')
+    from=$(docker exec -t deepin sh -c "IFS=$'\n' dpkg -L ${app}" | sed -r -e 's/\r//g' | grep -E '\/usr.+desktop')
     docker cp "deepin:$from" "$to"
     sed -i -r -e  's/^Exec/\#Exec/g' ${to}
     echo "Exec=\"$0\" run $app" >> ${to}
@@ -117,19 +139,23 @@ remove(){
 
 # Stop and rm container
 cleanup(){
-    echo "clean up: stop&rm container"
+    docker inspect -f '{{.Id}}' deepin
     # docker stop deepin
-    docker rm deepin -f
+    docker rm deepin -f > /dev/null 2>&1
+    echo "clean up: stop&rm container"
 }
 
 run(){
     key="$1"
     case $key in
         deepin.com.thunderspeed|deepin.com.taobao.wangwang|deepin.com.taobao.aliclient.qianniu|deepin.com.qq.rtx2015|deepin.com.qq.office|deepin.com.qq.im.light|deepin.com.qq.im|deepin.com.qq.b.eim|deepin.com.qq.b.crm|deepin.com.gtja.fuyi|deepin.com.foxmail|deepin.com.cmbchina|deepin.com.baidu.pan|deepin.com.aaa-logo|deepin.com.95579.cjsc|deepin.cn.com.winrar|deepin.cn.360.yasuo|deepin.com.wechat|deepin.com.weixin.work|deepin.net.263.em|deepin.org.7-zip|deepin.org.foobar2000|deepin.net.cnki.cajviewer)
+            
+            check_container
+
             app=$key
             cmd=`cat $HOME/.local/share/applications/$app.desktop  | sed -n -r -e 's/^#Exec\="(.+)".*/\1/p'`
             # cmd like: /opt/deepinwine/apps/Deepin-WeChat/run.sh
-            # TODO: try run from if exists /home/deepin/run/${app}.sh
+            # try run from if exists /home/deepin/run/${app}.sh
             if [ -x "$HOME/deepin/run/${app}.sh" ] ; then
                 cmd="/home/deepin/run/${app}.sh"
             fi
@@ -202,6 +228,9 @@ case $cmd in
     ;;
     --init|init)
         init
+    ;;
+    --reinit|reinit)
+        reinit
     ;;
     _install_desktop)
         _install_desktop $2

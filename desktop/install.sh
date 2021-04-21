@@ -45,6 +45,7 @@ key="$1"
 case $key in
     --install|install)
         download
+        ${DEEPIN} init
         a=(${@})
         for app in ${a[@]:1} ; do
             echo install $app
