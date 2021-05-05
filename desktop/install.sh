@@ -5,16 +5,12 @@ ICON="${HOME}/.local/share/icons/hicolor/256x256/apps"
 DESKTOP="${HOME}/.local/share/applications"
 REPO="https://raw.githubusercontent.com/ygcaicn/docker-deepin/main"
 
-#bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
-#bash -c "$(curl -L https://git.io/JORao)" @ update
-
 if ! [ -x "$(command -v docker)" ]; then
         echo 'Error: docker is not installed.' >&2
         exit 1
 fi
 
 download(){
-	
     [ ! -d ${HOME}/.local/bin/ ] && mkdir -p ${HOME}/.local/bin/
     curl -Ls -H "Cache-Control: no-cache" "${REPO}/desktop/docker-deepin.sh" -o ${DEEPIN}
     chmod +x ${DEEPIN}

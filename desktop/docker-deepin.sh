@@ -41,6 +41,7 @@ check_container(){
 }
 
 init(){
+    [ ! -d ~/deepin ] && mkdir -p ~/deepin
     check_container
 }
 
@@ -72,6 +73,7 @@ _install_desktop(){
         [ -d $i ] && continue
         to=$HOME/.local/share/icons/$(echo $from | sed -n -r -e 's/^.+icons\/(.+)$/\1/p')
         echo "deepin:$from -> $to"
+        mkdir -p `dirname $to`
         docker cp "deepin:$from" "$to"
         # convert svg to png
         [[ "${to##*.}" == "svg" ]] && {
@@ -87,18 +89,18 @@ _install_desktop(){
     from=$(docker exec -t deepin sh -c "IFS=$'\n' dpkg -L ${app}" | sed -r -e 's/\r//g' | grep -E '\/usr.+desktop')
     docker cp "deepin:$from" "$to"
     sed -i -r -e  's/^Exec/\#Exec/g' ${to}
-    echo "Exec=\"$0\" run $app" >> ${to}
+    echo "Exec=docker-deepin run $app" >> ${to}
     chmod 755 ${to}
     echo "install desktop: ${to}"
 
     # copy run.sh to /home/deepin/run/${app}.sh
     cmd=`cat $to  | sed -n -r -e 's/^#Exec\="(.+)".*/\1/p'`
 
-    sc=$(cat << EOF
+    sc=$(
+cat << EOF
 set -e
 [ ! -d /home/deepin/run ] && mkdir -p /home/deepin/run
 cp $cmd /home/deepin/run/${app}.sh
-
 EOF
 )
     docker exec -u deepin -t deepin sh -c "$sc"
