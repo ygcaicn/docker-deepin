@@ -8,6 +8,7 @@ Debian/Ubuntu安装方法：
 sudo apt update
 sudo apt install docker.io -y
 sudo usermod -aG docker $USER
+newgrp docker
 ```
 
 超级简单的安装使用方法：
@@ -137,9 +138,9 @@ docker exec -t deepin sh -c "apt update && apt search  'Deepin Wine'"
 
 ```bash
 # docker exec -d deepin tim.sh
-docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-TIM/run.sh
+docker exec -d -u deepin deepin /opt/deepinwine/apps/Deepin-TIM/run.sh
 # docker exec -d deepin wechat.sh
-docker exec -d deepin runuser -u deepin  /opt/deepinwine/apps/Deepin-WeChat/run.sh
+docker exec -d -u deepin deepin /opt/deepinwine/apps/Deepin-WeChat/run.sh
 ```
 
 ## 其它指令
