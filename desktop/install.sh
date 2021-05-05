@@ -9,7 +9,7 @@ if ! [ -x "$(command -v docker)" ]; then
 fi
 
 download(){
-    [ ! -d ${HOME}/.local/bin/ ] && mkdir -p ${HOME}/.local/bin/
+    [ ! -d ${HOME}/.local/bin/ ] && mkdir -p ${HOME}/.local/bin/ && source ~/.profile
     curl -Ls -H "Cache-Control: no-cache" "${REPO}/desktop/docker-deepin.sh" -o ${DEEPIN}
     chmod +x ${DEEPIN}
     ln -f ${DEEPIN} ${HOME}/.local/bin/docker-deepin
