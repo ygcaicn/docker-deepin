@@ -15,6 +15,13 @@ sudo usermod -aG docker $USER
 ```bash
 > bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
 
+# 或者
+> git clone git@github.com:ygcaicn/docker-deepin.git
+> cd docker-deepin/desktop
+> ./install.sh install deepin.com.qq.office deepin.com.wechat
+```
+
+```bash
 > docker-deepin help
 
 Usage: docker-deepin COMMAND
