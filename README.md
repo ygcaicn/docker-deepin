@@ -13,6 +13,8 @@ newgrp docker
 
 超级简单的安装使用方法：
 
+**注意不要使用sudo运行**
+
 ```bash
 > bash -c "$(curl -L https://git.io/JORao)" @ install deepin.com.qq.office deepin.com.wechat
 
@@ -53,7 +55,11 @@ app list:
       deepin.cn.com.winrar deepin.cn.360.yasuo deepin.com.wechat deepin.com.weixin.work
       deepin.net.263.em deepin.org.7-zip deepin.org.foobar2000 deepin.net.cnki.cajviewer
 
+```
 
+更新脚本：
+```
+bash -c "$(curl -L https://git.io/JORao)" @ update
 ```
 
 基本使用方法: 
