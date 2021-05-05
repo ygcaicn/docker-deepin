@@ -9,6 +9,9 @@ sudo apt update
 sudo apt install docker.io -y
 sudo usermod -aG docker $USER
 newgrp docker
+
+docker ps -a
+# 如果这里执行有问题需要重启
 ```
 
 超级简单的安装使用方法：

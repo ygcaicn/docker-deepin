@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 DEEPIN="${HOME}/.local/bin/docker-deepin.sh"
-ICON="${HOME}/.local/share/icons/hicolor/256x256/apps"
-DESKTOP="${HOME}/.local/share/applications"
 REPO="https://raw.githubusercontent.com/ygcaicn/docker-deepin/main"
 
 if ! [ -x "$(command -v docker)" ]; then
@@ -53,7 +51,7 @@ case $key in
         exit 0
     ;;
     *)
-        echo "Unknown opt."
+        download
         exit 1
     ;;
 esac
