@@ -8,6 +8,8 @@ _init(){
         -v $HOME/deepin:/home/deepin \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         -v $HOME:$HOME\
+        -v /media:/media\
+        -v /mnt:/mnt\
         -e XMODIFIERS=@im=fcitx \
         -e QT_IM_MODULE=fcitx \
         -e GTK_IM_MODULE=fcitx \
